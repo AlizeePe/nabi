@@ -6,7 +6,7 @@ import { Check, X } from "lucide-react";
 import { FlashCard } from "./components/FlashCard";
 
 // Data
-import wordsData from "../../data/nabi-dataset.json";
+import wordsData from "../../data/words.json";
 
 // Types
 import type { Word } from "../../types";
