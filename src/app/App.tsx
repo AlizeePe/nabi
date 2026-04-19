@@ -1,5 +1,7 @@
+import { FlashcardsPage } from "../features/flashcards/FlashCardsPages";
+
 function App() {
-  return <p></p>;
+  return <FlashcardsPage></FlashcardsPage>;
 }
 
 export default App;
