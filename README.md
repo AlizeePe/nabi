@@ -5,6 +5,10 @@ Designed to help learners discover Hangul and everyday words through interactive
 
 > Built as a personal project to learn React while actually learning Korean 🇰🇷
 
+## 🔗 Preview
+
+https://alizeepe.github.io/nabi/
+
 ## 📸 Preview
 
 <img src="./public/preview-flashcard.png" alt="Flashcard preview" width="600" />
