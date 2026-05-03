@@ -1,7 +1,7 @@
-import { FlashcardsPage } from "../features/flashcards/FlashCardsPages";
+import { Router } from "./router";
 
 function App() {
-  return <FlashcardsPage></FlashcardsPage>;
+  return <Router />;
 }
 
 export default App;
