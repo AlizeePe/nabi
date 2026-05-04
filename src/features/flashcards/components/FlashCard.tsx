@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
-
-// Types
 import type { Word } from "../../../types";
 
-// Props
 interface FlashCardProps {
   word: Word;
   isFlipped: boolean;
@@ -28,7 +25,7 @@ export function FlashCard({ word, isFlipped, onFlip }: FlashCardProps) {
         style={{ transformStyle: "preserve-3d" }}
       >
         <div
-          className="absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-3xl border-2 border-gray-100 bg-gray-50 px-6 py-8"
+          className="absolute inset-0 flex flex-col items-center justify-between overflow-hidden rounded-3xl border-2 border-gray-100 bg-white px-6 py-8 shadow-xl"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",

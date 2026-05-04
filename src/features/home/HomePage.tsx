@@ -10,8 +10,8 @@ const MASCOT_TRANSITION = {
 
 export function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100">
-      <div className="flex w-full max-w-sm flex-col items-center rounded-2xl bg-[#FFFCF8] p-6 shadow-lg md:max-w-lg md:p-8">
+    <div className="flex flex-1 flex-col items-center pt-16 pb-20 md:pb-0">
+      <div className="flex w-full max-w-sm flex-col items-center rounded-2xl bg-white p-6 shadow-lg md:max-w-lg md:p-8">
         <motion.img
           src="/nabi/nabi.svg"
           alt="Nabi, the cat mascot"

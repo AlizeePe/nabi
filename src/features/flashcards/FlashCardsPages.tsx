@@ -1,6 +1,7 @@
 // Library
 import { useState } from "react";
 import { Check, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 // Components
 import { FlashCard } from "./components/FlashCard";
@@ -9,13 +10,16 @@ import { FlashCard } from "./components/FlashCard";
 import wordsData from "../../data/words.json";
 
 // Types
-import type { Word } from "../../types";
+import type { Word, SRSRating } from "../../types";
+
+const words: Word[] = wordsData.words as Word[];
 
 const TRANSITION_DURATION = 400;
 
-export function FlashcardsPage() {
-  const words: Word[] = wordsData.words as Word[];
+const CELEBRATE_ANIMATE = { y: [0, -20, 0] };
+const CELEBRATE_TRANSITION = { duration: 1, repeat: 2, delay: 1 } as const;
 
+export function FlashcardsPage() {
   // Navigation
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -51,7 +55,7 @@ export function FlashcardsPage() {
     }, TRANSITION_DURATION);
   };
 
-  const updateScore = (rating: "known" | "unknown") => {
+  const updateScore = (rating: SRSRating) => {
     if (rating === "known") {
       setGotIt((prev) => prev + 1);
     } else {
@@ -59,7 +63,7 @@ export function FlashcardsPage() {
     }
   };
 
-  const handleNext = (rating?: "known" | "unknown") => {
+  const handleNext = (rating?: SRSRating) => {
     if (isAnimating) return;
 
     if (rating) updateScore(rating);
@@ -93,30 +97,37 @@ export function FlashcardsPage() {
 
   if (isComplete) {
     return (
-      <div className="min-h-screen bg-white p-6 max-w-md mx-auto flex flex-col items-center justify-center gap-6">
-        <span className="text-6xl">🐱</span>
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-6 p-6 pt-16">
+        <motion.img
+          src="/nabi/nabi.svg"
+          alt="Nabi celebrating"
+          className="h-28 w-28"
+          animate={CELEBRATE_ANIMATE}
+          transition={CELEBRATE_TRANSITION}
+        />
 
         <div className="text-center">
           <h1 className="text-2xl font-black text-gray-800">
             Session complete!
           </h1>
-          <p className="text-sm text-gray-400 mt-1">Here's how you did</p>
+          <p className="mt-1 text-sm text-gray-400">Here's how you did</p>
         </div>
 
-        <div className="flex gap-4 w-full">
-          <div className="flex-1 bg-green-50 rounded-2xl p-4 text-center">
+        <div className="flex w-full gap-4">
+          <div className="flex-1 rounded-2xl bg-green-50 p-4 text-center">
             <p className="text-3xl font-black text-green-500">{gotIt}</p>
-            <p className="text-xs font-bold text-green-400 mt-1">Got it</p>
+            <p className="mt-1 text-xs font-bold text-green-400">Got it</p>
           </div>
-          <div className="flex-1 bg-red-50 rounded-2xl p-4 text-center">
+          <div className="flex-1 rounded-2xl bg-red-50 p-4 text-center">
             <p className="text-3xl font-black text-red-400">{dontKnow}</p>
-            <p className="text-xs font-bold text-red-300 mt-1">Don't know</p>
+            <p className="mt-1 text-xs font-bold text-red-300">Don't know</p>
           </div>
         </div>
 
         <button
+          type="button"
           onClick={handleRestart}
-          className="w-full py-3 rounded-2xl bg-red-400 text-white font-bold text-sm"
+          className="bg-primary w-full rounded-2xl py-4 text-base font-bold text-white"
         >
           Try again →
         </button>
@@ -125,15 +136,15 @@ export function FlashcardsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white p-6 max-w-md mx-auto">
-      <div className="flex items-center gap-3 mb-8">
+    <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-start gap-6 p-6 pt-16 pb-20 md:pb-6">
+      <div className="flex items-center gap-3">
         <span className="text-sm font-bold text-gray-400">
           {currentIndex + 1} / {words.length}
         </span>
 
-        <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100">
           <div
-            className="h-full bg-red-400 rounded-full transition-all duration-300"
+            className="bg-primary h-full rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / words.length) * 100}%` }}
           />
         </div>
@@ -142,16 +153,18 @@ export function FlashcardsPage() {
       <FlashCard word={currentWord} isFlipped={isFlipped} onFlip={handleFlip} />
 
       {isFlipped && (
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-3 md:mt-0">
           <button
+            type="button"
             onClick={() => handleNext("known")}
-            className="flex-1 py-3 rounded-2xl bg-green-400 text-green-900 font-bold text-sm flex items-center justify-center gap-2"
+            className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-green-400 py-4 text-base font-bold text-green-900"
           >
             <Check size={16} /> Got it
           </button>
           <button
+            type="button"
             onClick={() => handleNext("unknown")}
-            className="flex-1 py-3 rounded-2xl bg-red-400 text-red-900 font-bold text-sm flex items-center justify-center gap-2"
+            className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-red-400 py-4 text-base font-bold text-red-900"
           >
             <X size={16} /> Don't know
           </button>
@@ -159,18 +172,20 @@ export function FlashcardsPage() {
       )}
 
       {!isFlipped && (
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-3 md:mt-0">
           <button
+            type="button"
             onClick={handlePrevious}
             disabled={currentIndex === 0 || isAnimating}
-            className={`flex-1 py-3 rounded-2xl border-2 border-gray-100 text-gray-400 font-bold text-sm ${currentIndex === 0 ? "opacity-30" : ""}`}
+            className={`flex-1 rounded-2xl border-2 border-gray-100 py-4 text-base font-bold text-gray-500 ${currentIndex === 0 ? "opacity-30" : ""}`}
           >
             ← Previous
           </button>
           <button
+            type="button"
             onClick={() => handleNext()}
             disabled={isLastWord || isAnimating}
-            className={`flex-1 py-3 rounded-2xl bg-gray-200 text-gray-600 font-bold text-sm ${isLastWord ? "opacity-30" : ""}`}
+            className={`flex-1 rounded-2xl bg-gray-200 py-4 text-base font-bold text-gray-600 ${isLastWord ? "opacity-30" : ""}`}
           >
             Skip →
           </button>
